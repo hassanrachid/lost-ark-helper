@@ -1,0 +1,34 @@
+<mat-toolbar color="default">
+    <mat-toolbar-row>
+        <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>add</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item mat-button *ngFor="let icon of icons"><img class="menu-img" src={{icon}} /></button>
+        </mat-menu>
+        <button *ngFor="let character of characters" mat-button [class.selected]="character === selectedCharacter" type="button" (click)="onSelect(character)"><img class="toolbar-img" src='assets/{{character.name}}.png' /></button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+
+<div *ngIf="selectedCharacter">
+
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-card-title>{{selectedCharacter.name}}</mat-card-title>
+            <!-- <mat-card-subtitle>Completed: {{selectedCharacter.Checklist.selectedOptions.selected.length}} / {{selectedCharacter.Checklist.options.length}}</mat-card-subtitle> -->
+        </mat-card-header>
+        <mat-card-content>
+            <mat-selection-list #list [(ngModel)]="selectedCharacter.FinishedTasks"
+                (ngModelChange)="onNgModelChange($event)">
+                <mat-list-option *ngFor="let item of selectedCharacter.UnfinishedTasks" [value]="item">
+                    {{item}}
+                </mat-list-option>
+            </mat-selection-list>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button>Reset Daily</button>
+        </mat-card-actions>
+    </mat-card>
+
+</div>
