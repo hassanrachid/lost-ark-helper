@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +8,7 @@ import { delay } from 'rxjs';
 
 export class AppComponent {
 
-  title = 'wandering-merchant-alert';
+  title = 'wandering-merchant-watcher';
   currentRotation: string | any;
   currentTime: Date | any;
   activeMerchantsView: ActiveMerchantsView | any = new ActiveMerchantsView();
