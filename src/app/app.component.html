@@ -134,7 +134,6 @@
   .card.card.highlight-card span {
     margin-left: 60px;
   }
-
 </style>
 
 <div class="toolbar" role="banner">
@@ -144,14 +143,28 @@
 <div class="content" role="main">
 
   <h2>Active Merchants</h2>
-  <h4>Current Rotation: {{ activeMerchantsView.Time || 'N/A' }} | Current Time: {{ currentTime }}</h4>
+  <h4>Current Rotation: {{ merchantsView.CurrentRotation || 'N/A' }} | Current Time: {{ currentTime }}</h4>
 
   <div class="card-container">
-    <button class="card card-small" *ngFor="let item of activeMerchantsView.ActiveMerchants; let i = index">
+    <button class="card card-small" *ngFor="let item of merchantsView.ActiveMerchants; let i = index">
       <span>{{item}}</span>
     </button>
   </div>
 
 </div>
+
+<div class="content" role="main">
+
+  <h2>Upcoming Merchants</h2>
+  <h4>Upcoming Rotation: {{ merchantsView.UpcomingRotation || 'N/A' }}</h4>
+
+  <div class="card-container">
+    <button class="card card-small" *ngFor="let item of merchantsView.UpcomingMerchants; let i = index">
+      <span>{{item}}</span>
+    </button>
+  </div>
+  
+</div>
+
 
 <router-outlet></router-outlet>

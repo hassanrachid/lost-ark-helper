@@ -9,81 +9,108 @@ import { Component } from '@angular/core';
 export class AppComponent {
 
   title = 'Wandering Merchant Watcher';
+
   currentRotation: string | any;
   currentTime: Date | any;
-  activeMerchantsView: ActiveMerchantsView | any = new ActiveMerchantsView();
-
+  merchantsView: ActiveMerchantsView | any = new ActiveMerchantsView();
 
   data = [
     {
-      key: 'Rethramis', times: ['3:30', '6:30', '7:30', '10:30', '12:30']
+      Time: '1:30',
+      Keys: ["Yudia", "East Luterra", "Anikka", "Shushire", "Feiton"]
     },
     {
-      key: 'Yudia', times: ['1:30', '4:30', '5:30', '7:30', '8:30', '11:30']
+      Time: '2:30',
+      Keys: ["Arthetine", "West Luterra", "Rohendel", "Punika", "East Luterra - Burt"]
     },
     {
-      key: 'West Luterra', times: ['2:30', '5:30', '6:30', '8:30', '9:30', '12:30']
+      Time: '3:30',
+      Keys: ["Rethramis", "North Vern", "Yorn"]
     },
     {
-      key: 'East Luterra', times: ['1:30', '4:30', '5:30', '7:30', '8:30', '11:30']
+      Time: '4:30',
+      Keys: ["Yudia", "Anikka", "North Vern", "Shushire", "Yorn", "Feiton"]
     },
     {
-      key: 'Tortoyk', times: ['2:30', '5:30', '6:30', '8:30', '9:30', '12:30']
+      Time: '5:30',
+      Keys: ["Yudia", "Anikka", "East Luterra - Burt", "East Luterra - Mac", "West Luterra", "Shushire", "Arthetine", "Feiton", "Punika", "Rohendel"]
     },
     {
-      key: 'Anikka', times: ['1:30', '4:30', '5:30', '7:30', '8:30', '11:30']
+      Time: '6:30',
+      Keys: ["Rethramis", "Tortoyk", "East Luterra - Burt", "West Luterra", "North Vern", "Arthetine", "Punika", "Rohendel"]
     },
     {
-      key: 'North Vern', times: ['12:30', '3:30', '4:30', '6:30', '7:30', '10:30']
+      Time: '7:30',
+      Keys: ["Rethramis", "Yudia", "East Luterra", "Anikka", "North Vern", "Shushire", "Yorn", "Feiton"]
     },
     {
-      key: 'Arthetine', times: ['2:30', '5:30', '6:30', '8:30', '9:30', '12:30']
+      Time: '8:30',
+      Keys: ["West Luterra", "Yudia", "East Luterra - Mac", "East Luterra - Burt", "Anikka", "Tortoyk", "Shushire", "Anikka", "Feiton", "Punika", "Rohendel"]
     },
     {
-      key: 'Shushire', times: ['1:30', '4:30', '5:30', '7:30', '8:30', '11:30']
+      Time: '9:30',
+      Keys: ["West Luterra", "East Luterra - Burt", "Tortoyk", "Arthetine", "Punika", "Rohendel"]
     },
     {
-      key: 'Rohendel', times: ['2:30', '5:30', '6:30', '8:30', '9:30', '12:30']
+      Time: '10:30',
+      Keys: ["Rethramis", "North Vern", "Yorn"]
     },
     {
-      key: 'Yorn', times: ['12:30', '3:30', '4:30', '6:30', '7:30', '10:30']
+      Time: '11:30',
+      Keys: ["Yudia", "East Luterra", "Anikka", "Shushire", "Feiton"]
     },
     {
-      key: 'Feiton', times: ['1:30', '4:30', '5:30', '7:30', '8:30', '11:30']
+      Time: '12:30',
+      Keys: ["Rethramis", "East Luterra - Burt", "West Luterra", "Tortoyk", "North Vern", "Arthetine", "Rohendel", "Yorn", "Punika"]
     },
-    {
-      key: 'Punika', times: ['12:30', '2:30', '5:30', '6:30', '8:30', '9:30']
-    }
   ]
 
   ngOnInit(): void {
     setInterval(() => {
       this.currentTime = new Date().toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).split(" ")[0];
-      this.activeMerchantsView = this.getActiveMerchants();
+      this.merchantsView = this.getMerchants();
     }, 600);
   }
 
-  getActiveMerchants(): any {
+  getMerchants(): any {
 
-    var activeMerchantsView = new ActiveMerchantsView();
-    activeMerchantsView.ActiveMerchants = [ ];
+    var merchantsView = new ActiveMerchantsView();
+    var current = this.currentTime.split(":");
 
     for (let d of this.data) {
-      for (let time of d.times) {
-        var current = this.currentTime.split(":");
-        var merchant = time.split(":");
-        if (current[0] == merchant[0] && (Number(current[1]) >= Number(merchant[1]) && Number(current[1]) <= 55)) {
-          activeMerchantsView.ActiveMerchants.push(d.key);
-          activeMerchantsView.Time = time;
+      if (d.Time.split(":")[0] == current[0]) {
+        if (current[1] > 30 && current[1] < 55) {
+          merchantsView.CurrentRotation = d.Time;
+          merchantsView.ActiveMerchants = d.Keys;
+        }
+        if (current[1] >= 55) {
+            localStorage.setItem("lastRotation", String(Number(current[0]) + 1));
+        } else if (current[1] <= 30) {
+            localStorage.setItem("lastRotation", current[0]);
+        } else if (current[1] >= 30) {
+          console.log(current[0]);
+            localStorage.setItem("lastRotation", String(Number(current[0]) + 1));
         }
       }
     }
-    return activeMerchantsView;
+
+    var upcoming = Number(localStorage.getItem("lastRotation"));
+    console.log(upcoming);
+    for (let d of this.data) {
+      if (d.Time.split(":")[0] == String(upcoming)) {
+        merchantsView.UpcomingRotation = d.Time;
+        merchantsView.UpcomingMerchants = d.Keys;
+      }
+    }
+
+    return merchantsView;
   }
 }
 
 
- class ActiveMerchantsView {
+class ActiveMerchantsView {
   ActiveMerchants: string[] | any;
-  Time: string | any;
+  UpcomingMerchants: string[] | any;
+  CurrentRotation: string | any;
+  UpcomingRotation: string | any;
 }
