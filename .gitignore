@@ -22,6 +22,7 @@ pubspec.lock
 .vscode/launch.json
 .vscode/settings.json
 .vscode/tasks.json
+.anguler/
 *.swo
 *.swp
 modules/.settings
