@@ -1,0 +1,28 @@
+.card {
+    max-width: 500px;
+}
+
+.menu-img {
+    float: left;
+    width:  50px;
+    height: 50px;
+    object-fit: cover;
+    padding-left: 13px;
+}
+
+.mat-menu-trigger {
+    min-width: 50px;
+    min-height: 50px;
+}
+
+.toolbar-img {
+    float: left;
+    width:  50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.mat-menu-item {
+    height: 55px;
+    align-items: center;
+}
