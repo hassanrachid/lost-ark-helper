@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
 
-  title = 'wandering-merchant-watcher';
+  title = 'Wandering Merchant Watcher';
   currentRotation: string | any;
   currentTime: Date | any;
   activeMerchantsView: ActiveMerchantsView | any = new ActiveMerchantsView();
